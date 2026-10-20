@@ -3,12 +3,12 @@
 @testable import IvorGeneralMIDI
 import Testing
 
-struct StringGeneralMIDITests {
+struct StringGMTests {
 }
 
 // MARK: -
 
-extension StringGeneralMIDITests {
+extension StringGMTests {
     @Test
     func normalizedName() {
         #expect("Acoustic Grand Piano".normalizedName == "acoustic grand piano")

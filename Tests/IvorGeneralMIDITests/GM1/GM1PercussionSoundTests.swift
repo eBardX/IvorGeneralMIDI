@@ -27,7 +27,7 @@ extension GM1PercussionSoundTests {
     @Test
     func init_name() {
         #expect(GM1PercussionSound(name: "Acoustic Snare") == .acousticSnare)
-        #expect(GM1PercussionSound(name: "  closed   HI-HAT ") == .closedHiHat)
+        #expect(GM1PercussionSound(name: "  closed   HI HAT ") == .closedHiHat)
         #expect(GM1PercussionSound(name: "Snare") == nil)
         #expect(GM1PercussionSound(name: "") == nil)
     }
@@ -66,7 +66,7 @@ extension GM1PercussionSoundTests {
     func name() {
         #expect(GM1PercussionSound.acousticBassDrum.name == "Acoustic Bass Drum")
         #expect(GM1PercussionSound.acousticSnare.name == "Acoustic Snare")
-        #expect(GM1PercussionSound.closedHiHat.name == "Closed Hi-Hat")
+        #expect(GM1PercussionSound.closedHiHat.name == "Closed Hi Hat")
         #expect(GM1PercussionSound.openTriangle.name == "Open Triangle")
     }
 

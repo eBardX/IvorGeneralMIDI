@@ -78,8 +78,8 @@ public enum GM1Instrument {
     /// Clarinet (program 72).
     case clarinet
 
-    /// Clavinet (program 8).
-    case clavinet
+    /// Clavi (program 8).
+    case clavi
 
     /// Contrabass (program 44).
     case contrabass
@@ -162,7 +162,7 @@ public enum GM1Instrument {
     /// Guitar Fret Noise (program 121).
     case guitarFretNoise
 
-    /// Guitar Harmonics (program 32).
+    /// Guitar harmonics (program 32).
     case guitarHarmonics
 
     /// Gunshot (program 128).
@@ -324,19 +324,19 @@ public enum GM1Instrument {
     /// Synth Bass 2 (program 40).
     case synthBass2
 
-    /// Synth Brass 1 (program 63).
+    /// SynthBrass 1 (program 63).
     case synthBrass1
 
-    /// Synth Brass 2 (program 64).
+    /// SynthBrass 2 (program 64).
     case synthBrass2
 
     /// Synth Drum (program 119).
     case synthDrum
 
-    /// Synth Strings 1 (program 51).
+    /// SynthStrings 1 (program 51).
     case synthStrings1
 
-    /// Synth Strings 2 (program 52).
+    /// SynthStrings 2 (program 52).
     case synthStrings2
 
     /// Synth Voice (program 55).

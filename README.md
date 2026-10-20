@@ -1,6 +1,6 @@
 # IvorGeneralMIDI
 
-General MIDI instrument, instrument family, and percussion sound types.
+General MIDI 1 and 2 instrument, drum set, and percussion sound types.
 
 [![Swift 6.3](https://img.shields.io/badge/Swift-6.3-orange.svg)](https://swift.org)
 [![Platforms](https://img.shields.io/badge/platforms-iOS%20%7C%20macOS-lightgrey.svg)](https://developer.apple.com)
@@ -18,12 +18,16 @@ General MIDI instrument, instrument family, and percussion sound types.
 
 ## <a name="overview">Overview</a>
 
-The IvorGeneralMIDI framework provides the [General MIDI 1][gm1] sound set as
-Swift enumerations: the 128 instruments that a program change selects, the 16
-instrument families they fall into, and the 47 sounds of the percussion key
-map. Each sound can be looked up by its program or note, or by its name as the
-specification gives it, and converted back again. Programs, notes, and
-channels use the [IvorMIDI][ivormidi] data value types.
+The IvorGeneralMIDI framework provides the [General MIDI 1][gm1] and General
+MIDI 2 sound sets as Swift enumerations. For General MIDI 1: the 128
+instruments that a program change selects, the 16 instrument families they
+fall into, and the 47 sounds of the percussion key map. For General MIDI 2:
+the 256 instruments that a bank select and program change select, the 9 drum
+sets, and the 61 sounds of the extended percussion key map. Each sound can be
+looked up by its program, bank, or note, or by its name as the specification
+gives it, and converted back again. Programs, notes, and channels use the
+[IvorMIDI][ivormidi] data value types, and the system exclusive messages that turn General
+MIDI on and off are available as `MIDISystemMessage` values.
 
 ## <a name="requirements">Requirements</a>
 
@@ -81,12 +85,26 @@ let snare = GM1PercussionSound(name: "acoustic snare")
 
 snare?.note         // 38
 GM1PercussionSound.channel  // 10
+
+// A General MIDI 2 variation falls back to its General MIDI 1 instrument.
+let ukulele = GM2Instrument(bankLSB: 1, program: 25)
+
+ukulele?.name           // "Ukulele"
+ukulele?.gm1Instrument  // .acousticGuitarNylon
+GM2Instrument.bankMSB   // 121
+
+// Bank select MSB 121, bank select LSB 1, then program change 25.
+let messages = ukulele?.selectionMessages(channel: 1)
+
+MIDISystemMessage.gm2SystemOn  // F0 7E 7F 09 03 F7
 ```
 
 Every program selects an instrument, so `GM1Instrument(program:)` always
 succeeds. The name initializers and `GM1PercussionSound(note:)` are failable:
 they return `nil` for a name the specification doesn’t use, or for a note
-outside the percussion key map (35–81).
+outside the percussion key map (35–81). Likewise, `GM2Instrument(bankLSB:program:)`,
+`GM2DrumSet(program:)`, and `GM2PercussionSound(note:)` return `nil` for a
+bank LSB, program, or note that selects no sound.
 
 ## <a name="reference_documentation">Reference Documentation</a>
 

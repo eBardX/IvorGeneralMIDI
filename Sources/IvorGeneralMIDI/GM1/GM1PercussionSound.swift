@@ -29,7 +29,7 @@ public enum GM1PercussionSound {
     /// Claves (note 75).
     case claves
 
-    /// Closed Hi-Hat (note 42).
+    /// Closed Hi Hat (note 42).
     case closedHiHat
 
     /// Cowbell (note 56).
@@ -62,7 +62,7 @@ public enum GM1PercussionSound {
     /// High Tom (note 50).
     case highTom
 
-    /// Hi-Mid Tom (note 48).
+    /// Hi Mid Tom (note 48).
     case hiMidTom
 
     /// Hi Wood Block (note 76).
