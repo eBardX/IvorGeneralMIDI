@@ -1,0 +1,24 @@
+{
+  "originHash" : "9658320ca43e10a1bf5e0a8bee5f8ffe0c5e15058f086e1969256a8239cfa1af",
+  "pins" : [
+    {
+      "identity" : "ivormidi",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/eBardX/IvorMIDI.git",
+      "state" : {
+        "revision" : "1797f207986e715bb9bb609250fcc6976a7528ca",
+        "version" : "0.2.0"
+      }
+    },
+    {
+      "identity" : "xestitools",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/eBardX/XestiTools.git",
+      "state" : {
+        "revision" : "3dee54dd2f6b8732705e97ef9e3e1288d61002c9",
+        "version" : "10.1.0"
+      }
+    }
+  ],
+  "version" : 3
+}
