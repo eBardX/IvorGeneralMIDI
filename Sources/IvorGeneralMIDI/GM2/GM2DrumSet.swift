@@ -95,6 +95,14 @@ extension GM2DrumSet {
         entry.name
     }
 
+    /// The patch that selects this drum set: ``program`` in bank
+    /// ``bankMSB``:``bankLSB``.
+    public var patch: MIDIPatch {
+        MIDIPatch(program: program,
+                  bank: MIDIBank(msb: Self.bankMSB,
+                                 lsb: Self.bankLSB))
+    }
+
     /// The program that selects this drum set.
     public var program: MIDIProgram {
         entry.program
@@ -118,9 +126,8 @@ extension GM2DrumSet {
     ///
     /// - Returns:  The bank select and program change messages.
     public func selectionMessages(channel: MIDIChannel = GM1PercussionSound.channel) -> [MIDIChannelMessage] {
-        [.controlChange(channel, .bankSelectMSB, Self.bankMSB),
-         .controlChange(channel, .bankSelectLSB, Self.bankLSB),
-         .programChange(channel, program)]
+        patch.selectionMessages(on: channel,
+                                after: nil)
     }
 
     /// Returns the sound that the provided note plays in this drum set, or

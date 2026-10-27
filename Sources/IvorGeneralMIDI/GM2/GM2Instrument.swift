@@ -861,6 +861,14 @@ extension GM2Instrument {
         entry.name
     }
 
+    /// The patch that selects this instrument: ``program`` in bank
+    /// ``bankMSB``:``bankLSB``.
+    public var patch: MIDIPatch {
+        MIDIPatch(program: program,
+                  bank: MIDIBank(msb: Self.bankMSB,
+                                 lsb: bankLSB))
+    }
+
     /// The program that, together with ``bankLSB``, selects this instrument.
     public var program: MIDIProgram {
         entry.program
@@ -894,9 +902,8 @@ extension GM2Instrument {
     ///
     /// - Returns:  The bank select and program change messages.
     public func selectionMessages(channel: MIDIChannel) -> [MIDIChannelMessage] {
-        [.controlChange(channel, .bankSelectMSB, Self.bankMSB),
-         .controlChange(channel, .bankSelectLSB, bankLSB),
-         .programChange(channel, program)]
+        patch.selectionMessages(on: channel,
+                                after: nil)
     }
 
     // MARK: Private Type Properties

@@ -82,6 +82,12 @@ extension GM2DrumSetTests {
     }
 
     @Test
+    func patch_isInDrumBank() {
+        #expect(GM2DrumSet.brush.patch == MIDIPatch(program: 41,
+                                                    bank: MIDIBank(msb: 120, lsb: 0)))
+    }
+
+    @Test
     func selectionMessages() {
         let messages = GM2DrumSet.brush.selectionMessages(channel: 11)
 

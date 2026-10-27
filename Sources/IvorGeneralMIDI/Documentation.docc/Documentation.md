@@ -41,7 +41,8 @@ ukulele?.name           // "Ukulele"
 ukulele?.gm1Instrument  // .acousticGuitarNylon
 GM2Instrument.bankMSB   // 121
 
-// Bank select MSB 121, bank select LSB 1, then program change 25.
+// Bank select MSB 121, bank select LSB 1, then program change 25 — the
+// messages that select `ukulele?.patch`.
 let messages = ukulele?.selectionMessages(channel: 1)
 
 MIDISystemMessage.gm2SystemOn  // F0 7E 7F 09 03 F7

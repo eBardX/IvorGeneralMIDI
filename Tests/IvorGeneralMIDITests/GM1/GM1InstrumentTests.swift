@@ -85,6 +85,11 @@ extension GM1InstrumentTests {
     }
 
     @Test
+    func patch_hasNoBank() {
+        #expect(GM1Instrument.churchOrgan.patch == MIDIPatch(program: 20))
+    }
+
+    @Test
     func program() {
         #expect(GM1Instrument.acousticGrandPiano.program == 1)
         #expect(GM1Instrument.glockenspiel.program == 10)

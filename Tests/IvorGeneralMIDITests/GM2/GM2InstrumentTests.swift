@@ -178,6 +178,12 @@ extension GM2InstrumentTests {
     }
 
     @Test
+    func patch_isInMelodicBank() {
+        #expect(GM2Instrument.ukulele.patch == MIDIPatch(program: 25,
+                                                         bank: MIDIBank(msb: 121, lsb: 1)))
+    }
+
+    @Test
     func selectionMessages() {
         let messages = GM2Instrument.ukulele.selectionMessages(channel: 3)
 

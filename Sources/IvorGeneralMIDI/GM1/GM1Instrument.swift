@@ -440,6 +440,11 @@ extension GM1Instrument {
         entry.name
     }
 
+    /// The patch that selects this instrument: ``program``, with no bank.
+    public var patch: MIDIPatch {
+        MIDIPatch(program: program)
+    }
+
     /// The program that selects this instrument.
     public var program: MIDIProgram {
         entry.program
