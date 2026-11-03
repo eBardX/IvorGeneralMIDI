@@ -12,6 +12,7 @@ General MIDI 1 and 2 instrument, drum set, and percussion sound types.
 * [Installation](#installation)
     * [Swift Package Manager](#spm_installation)
 * [Quick Start](#quick_start)
+* [Documentation](#documentation)
 * [Reference Documentation](#reference_documentation)
 * [Credits](#credits)
 * [License](#license)
@@ -26,8 +27,8 @@ the 256 instruments that a bank select and program change select, the 9 drum
 sets, and the 61 sounds of the extended percussion key map. Each sound can be
 looked up by its program, bank, or note, or by its name as the specification
 gives it, and converted back again. Programs, notes, and channels use the
-[IvorMIDI][ivormidi] data value types, and the system exclusive messages that turn General
-MIDI on and off are available as `MIDISystemMessage` values.
+[IvorMIDI][ivormidi] data value types, and the system exclusive messages that
+turn General MIDI on and off are available as `MIDISystemMessage` values.
 
 ## <a name="requirements">Requirements</a>
 
@@ -39,7 +40,8 @@ MIDI on and off are available as `MIDISystemMessage` values.
 
 ### <a name="spm_installation">Swift Package Manager</a>
 
-IvorGeneralMIDI is distributed exclusively through the [Swift Package Manager][spm].
+IvorGeneralMIDI is distributed exclusively through the [Swift Package
+Manager][spm].
 
 To add IvorGeneralMIDI to a Swift package, add it to the `dependencies` in your
 `Package.swift`:
@@ -47,7 +49,7 @@ To add IvorGeneralMIDI to a Swift package, add it to the `dependencies` in your
 ```swift
 dependencies: [
     .package(url: "https://github.com/eBardX/IvorGeneralMIDI.git",
-             .upToNextMinor(from: "0.1.0"))
+             .upToNextMinor(from: "0.3.0"))
 ]
 ```
 
@@ -70,6 +72,9 @@ IvorGeneralMIDI depends on [IvorMIDI][ivormidi] and [XestiTools][xestitools];
 the Swift Package Manager resolves them automatically.
 
 ## <a name="quick_start">Quick Start</a>
+
+Look up General MIDI sounds by program, name, or note, and select them on a
+channel:
 
 ```swift
 import IvorGeneralMIDI
@@ -102,9 +107,17 @@ MIDISystemMessage.gm2SystemOn  // F0 7E 7F 09 03 F7
 Every program selects an instrument, so `GM1Instrument(program:)` always
 succeeds. The name initializers and `GM1PercussionSound(note:)` are failable:
 they return `nil` for a name the specification doesn’t use, or for a note
-outside the percussion key map (35–81). Likewise, `GM2Instrument(bankLSB:program:)`,
-`GM2DrumSet(program:)`, and `GM2PercussionSound(note:)` return `nil` for a
-bank LSB, program, or note that selects no sound.
+outside the percussion key map (35–81). Likewise,
+`GM2Instrument(bankLSB:program:)`, `GM2DrumSet(program:)`, and
+`GM2PercussionSound(note:)` return `nil` for a bank LSB, program, or note that
+selects no sound. For the complete story — drum sets, effects, and controller
+destinations — see the [usage guide][guide].
+
+## <a name="documentation">Documentation</a>
+
+* [Using IvorGeneralMIDI][guide] — a guide to using the public API, published
+  as part of the DocC documentation.
+* Every public declaration carries a DocC comment.
 
 ## <a name="reference_documentation">Reference Documentation</a>
 
@@ -120,6 +133,7 @@ IvorGeneralMIDI is available under [the MIT license][license].
 
 [docc]:         https://www.swift.org/documentation/docc/
 [gm1]:          https://midi.org/general-midi
+[guide]:        https://eBardX.github.io/ivor-packages-docs/documentation/ivorgeneralmidi/usingivorgeneralmidi
 [ivormidi]:     https://github.com/eBardX/IvorMIDI
 [license]:      https://github.com/eBardX/IvorGeneralMIDI/blob/main/LICENSE.md
 [refdoc]:       https://eBardX.github.io/ivor-packages-docs/documentation/ivorgeneralmidi

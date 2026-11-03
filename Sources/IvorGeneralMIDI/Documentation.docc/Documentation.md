@@ -8,16 +8,18 @@ General MIDI 1 and 2 instrument, drum set, and percussion sound types.
 
 ## Overview
 
-The IvorGeneralMIDI framework provides the [General MIDI 1][gm1] and General
-MIDI 2 sound sets as Swift enumerations. For General MIDI 1: the 128
-instruments that a program change selects, the 16 instrument families they
-fall into, and the 47 sounds of the percussion key map. For General MIDI 2:
-the 256 instruments that a bank select and program change select, the 9 drum
-sets, and the 61 sounds of the extended percussion key map. Each sound can be
-looked up by its program, bank, or note, or by its name as the specification
-gives it, and converted back again. Programs, notes, and channels use the
-``IvorMIDI`` data value types, and the system exclusive messages that turn General
-MIDI on and off are available as `MIDISystemMessage` values.
+The IvorGeneralMIDI framework provides the [General MIDI
+1](https://midi.org/general-midi) and General MIDI 2 sound sets as Swift
+enumerations. For General MIDI 1: the 128 instruments that a program change
+selects, the 16 instrument families they fall into, and the 47 sounds of the
+percussion key map. For General MIDI 2: the 256 instruments that a bank select
+and program change select, the 9 drum sets, and the 61 sounds of the extended
+percussion key map. Each sound can be looked up by its program, bank, or note,
+or by its name as the specification gives it, and converted back again.
+Programs, notes, and channels use the
+[IvorMIDI](https://github.com/eBardX/IvorMIDI) data value types, and the system
+exclusive messages that turn General MIDI on and off are available as
+`MIDISystemMessage` values.
 
 ```swift
 import IvorGeneralMIDI
@@ -41,19 +43,20 @@ ukulele?.name           // "Ukulele"
 ukulele?.gm1Instrument  // .acousticGuitarNylon
 GM2Instrument.bankMSB   // 121
 
-// Bank select MSB 121, bank select LSB 1, then program change 25 — the
-// messages that select `ukulele?.patch`.
+// Bank select MSB 121, bank select LSB 1, then program change 25.
 let messages = ukulele?.selectionMessages(channel: 1)
 
 MIDISystemMessage.gm2SystemOn  // F0 7E 7F 09 03 F7
 ```
 
-Every public type is a `Sendable` value type, so instances can be freely shared
-across tasks and actor boundaries.
-
-[gm1]: https://midi.org/general-midi
+See <doc:UsingIvorGeneralMIDI> for a full guide to the instruments, drum sets,
+percussion sounds, and General MIDI 2 effects and controllers.
 
 ## Topics
+
+### Guides
+
+- <doc:UsingIvorGeneralMIDI>
 
 ### General MIDI 1
 
