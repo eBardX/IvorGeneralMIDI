@@ -3,7 +3,7 @@
 public import IvorMIDI
 
 /// A General MIDI 2 (GM2) chorus parameter and its value, which
-/// `MIDISystemMessage.gm2Chorus(_:)` sets.
+/// ``GMMessage/Content/gm2Chorus(_:)`` sets.
 public enum GM2ChorusParameter {
 
     /// The amount of feedback from the chorus output (parameter 3).
@@ -32,6 +32,39 @@ public enum GM2ChorusParameter {
     /// Selecting a chorus type also sets the other chorus parameters to the
     /// type’s defaults, such as ``GM2ChorusType/defaultFeedback``.
     case type(GM2ChorusType)
+
+    // MARK: Internal Initializers
+
+    // Creates a value from its two bytes, or returns nil for a pair that General
+    // MIDI doesn’t define.
+    internal init?(bytes: [UInt8]) {
+        guard bytes.count == 2,
+              let value = MIDIData1Value(uintValue: UInt(bytes[1]))
+        else { return nil }
+
+        switch bytes[0] {
+        case 0x00:
+            guard let type = GM2ChorusType(value: value)
+            else { return nil }
+
+            self = .type(type)
+
+        case 0x01:
+            self = .modRate(value)
+
+        case 0x02:
+            self = .modDepth(value)
+
+        case 0x03:
+            self = .feedback(value)
+
+        case 0x04:
+            self = .sendToReverb(value)
+
+        default:
+            return nil
+        }
+    }
 }
 
 // MARK: -

@@ -42,6 +42,39 @@ public enum GM2ControllerDestination {
     /// The range is 40–88 for −24 to +24 semitones. The default is 64
     /// (0 semitones).
     case pitchControl(MIDIData1Value)
+
+    // MARK: Internal Initializers
+
+    // Creates a value from its two bytes, or returns nil for a pair that General
+    // MIDI doesn’t define.
+    internal init?(bytes: [UInt8]) {
+        guard bytes.count == 2,
+              let value = MIDIData1Value(uintValue: UInt(bytes[1]))
+        else { return nil }
+
+        switch bytes[0] {
+        case 0x00:
+            self = .pitchControl(value)
+
+        case 0x01:
+            self = .filterCutoffControl(value)
+
+        case 0x02:
+            self = .amplitudeControl(value)
+
+        case 0x03:
+            self = .lfoPitchDepth(value)
+
+        case 0x04:
+            self = .lfoFilterDepth(value)
+
+        case 0x05:
+            self = .lfoAmplitudeDepth(value)
+
+        default:
+            return nil
+        }
+    }
 }
 
 // MARK: -

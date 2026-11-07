@@ -3,7 +3,7 @@
 public import IvorMIDI
 
 /// A General MIDI 2 (GM2) reverb parameter and its value, which
-/// `MIDISystemMessage.gm2Reverb(_:)` sets.
+/// ``GMMessage/Content/gm2Reverb(_:)`` sets.
 public enum GM2ReverbParameter {
 
     /// The reverb time (parameter 1).
@@ -17,6 +17,30 @@ public enum GM2ReverbParameter {
     /// Selecting a reverb type also sets the reverb time to the type’s
     /// ``GM2ReverbType/defaultTime``.
     case type(GM2ReverbType)
+
+    // MARK: Internal Initializers
+
+    // Creates a value from its two bytes, or returns nil for a pair that General
+    // MIDI doesn’t define.
+    internal init?(bytes: [UInt8]) {
+        guard bytes.count == 2,
+              let value = MIDIData1Value(uintValue: UInt(bytes[1]))
+        else { return nil }
+
+        switch bytes[0] {
+        case 0x00:
+            guard let type = GM2ReverbType(value: value)
+            else { return nil }
+
+            self = .type(type)
+
+        case 0x01:
+            self = .time(value)
+
+        default:
+            return nil
+        }
+    }
 }
 
 // MARK: -

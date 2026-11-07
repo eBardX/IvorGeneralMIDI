@@ -74,17 +74,17 @@ extension GM2DrumSetTests {
     }
 
     @Test
+    func patch_isInDrumBank() {
+        #expect(GM2DrumSet.brush.patch == MIDIPatch(program: 41,
+                                                    bank: MIDIBank(msb: 120, lsb: 0)))
+    }
+
+    @Test
     func program() {
         #expect(GM2DrumSet.standard.program == 1)
         #expect(GM2DrumSet.room.program == 9)
         #expect(GM2DrumSet.brush.program == 41)
         #expect(GM2DrumSet.sfx.program == 57)
-    }
-
-    @Test
-    func patch_isInDrumBank() {
-        #expect(GM2DrumSet.brush.patch == MIDIPatch(program: 41,
-                                                    bank: MIDIBank(msb: 120, lsb: 0)))
     }
 
     @Test

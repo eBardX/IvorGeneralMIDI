@@ -32,6 +32,33 @@ public enum GM2KeyBasedController {
     ///
     /// The value is relative to the note’s preset volume.
     case volume(MIDIData1Value)
+
+    // MARK: Internal Initializers
+
+    // Creates a value from its two bytes, or returns nil for a pair that General
+    // MIDI doesn’t define.
+    internal init?(bytes: [UInt8]) {
+        guard bytes.count == 2,
+              let value = MIDIData1Value(uintValue: UInt(bytes[1]))
+        else { return nil }
+
+        switch bytes[0] {
+        case 0x07:
+            self = .volume(value)
+
+        case 0x0a:
+            self = .pan(value)
+
+        case 0x5b:
+            self = .reverbSendLevel(value)
+
+        case 0x5d:
+            self = .chorusSendLevel(value)
+
+        default:
+            return nil
+        }
+    }
 }
 
 // MARK: -

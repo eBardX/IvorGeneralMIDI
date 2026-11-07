@@ -49,4 +49,18 @@ extension GM2ChorusParameterTests {
 
         #expect(parameters.count == 2)
     }
+
+    @Test
+    func init_bytes() {
+        #expect(GM2ChorusParameter(bytes: [0x00, 0x05]) == .type(.flanger))
+        #expect(GM2ChorusParameter(bytes: [0x01, 0x03]) == .modRate(3))
+        #expect(GM2ChorusParameter(bytes: [0x02, 0x13]) == .modDepth(19))
+        #expect(GM2ChorusParameter(bytes: [0x03, 0x08]) == .feedback(8))
+        #expect(GM2ChorusParameter(bytes: [0x04, 0x7f]) == .sendToReverb(127))
+    }
+
+    @Test(arguments: [[], [0x01], [0x01, 0x02, 0x03], [0x05, 0x00], [0x00, 0x06], [0x01, 0x80]] as [[UInt8]])
+    func init_bytes_invalid(bytes: [UInt8]) {
+        #expect(GM2ChorusParameter(bytes: bytes) == nil)
+    }
 }

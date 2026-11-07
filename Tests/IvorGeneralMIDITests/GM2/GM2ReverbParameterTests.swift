@@ -35,4 +35,15 @@ extension GM2ReverbParameterTests {
 
         #expect(parameters.count == 2)
     }
+
+    @Test
+    func init_bytes() {
+        #expect(GM2ReverbParameter(bytes: [0x00, 0x08]) == .type(.plate))
+        #expect(GM2ReverbParameter(bytes: [0x01, 0x40]) == .time(64))
+    }
+
+    @Test(arguments: [[], [0x01], [0x01, 0x02, 0x03], [0x02, 0x00], [0x00, 0x7f], [0x01, 0x80]] as [[UInt8]])
+    func init_bytes_invalid(bytes: [UInt8]) {
+        #expect(GM2ReverbParameter(bytes: bytes) == nil)
+    }
 }

@@ -126,6 +126,12 @@ extension GM2InstrumentTests {
     }
 
     @Test
+    func patch_isInMelodicBank() {
+        #expect(GM2Instrument.ukulele.patch == MIDIPatch(program: 25,
+                                                         bank: MIDIBank(msb: 121, lsb: 1)))
+    }
+
+    @Test
     func program() {
         #expect(GM2Instrument.acousticGrandPiano.program == 1)
         #expect(GM2Instrument.acousticGrandPianoDark.program == 1)
@@ -175,12 +181,6 @@ extension GM2InstrumentTests {
 
             #expect(instrument.recommendedKeyRange == base?.recommendedKeyRange)
         }
-    }
-
-    @Test
-    func patch_isInMelodicBank() {
-        #expect(GM2Instrument.ukulele.patch == MIDIPatch(program: 25,
-                                                         bank: MIDIBank(msb: 121, lsb: 1)))
     }
 
     @Test

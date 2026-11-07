@@ -43,4 +43,17 @@ extension GM2KeyBasedControllerTests {
 
         #expect(parameters.count == 2)
     }
+
+    @Test
+    func init_bytes() {
+        #expect(GM2KeyBasedController(bytes: [0x07, 0x40]) == .volume(64))
+        #expect(GM2KeyBasedController(bytes: [0x0a, 0x40]) == .pan(64))
+        #expect(GM2KeyBasedController(bytes: [0x5b, 0x40]) == .reverbSendLevel(64))
+        #expect(GM2KeyBasedController(bytes: [0x5d, 0x40]) == .chorusSendLevel(64))
+    }
+
+    @Test(arguments: [[], [0x07], [0x07, 0x02, 0x03], [0x08, 0x00], [0x07, 0x80]] as [[UInt8]])
+    func init_bytes_invalid(bytes: [UInt8]) {
+        #expect(GM2KeyBasedController(bytes: bytes) == nil)
+    }
 }

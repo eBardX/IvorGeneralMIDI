@@ -17,9 +17,9 @@ and program change select, the 9 drum sets, and the 61 sounds of the extended
 percussion key map. Each sound can be looked up by its program, bank, or note,
 or by its name as the specification gives it, and converted back again.
 Programs, notes, and channels use the
-[IvorMIDI](https://github.com/eBardX/IvorMIDI) data value types, and the system
-exclusive messages that turn General MIDI on and off are available as
-`MIDISystemMessage` values.
+[IvorMIDI](https://github.com/eBardX/IvorMIDI) data value types, and
+``GMMessage`` covers the system exclusive messages that turn General MIDI on and
+off, and the General MIDI 2 effects and controllers.
 
 ```swift
 import IvorGeneralMIDI
@@ -46,7 +46,7 @@ GM2Instrument.bankMSB   // 121
 // Bank select MSB 121, bank select LSB 1, then program change 25.
 let messages = ukulele?.selectionMessages(channel: 1)
 
-MIDISystemMessage.gm2SystemOn  // F0 7E 7F 09 03 F7
+GMMessage(content: .gm2SystemOn).systemMessage  // F0 7E 7F 09 03 F7
 ```
 
 See <doc:UsingIvorGeneralMIDI> for a full guide to the instruments, drum sets,
@@ -57,6 +57,10 @@ percussion sounds, and General MIDI 2 effects and controllers.
 ### Guides
 
 - <doc:UsingIvorGeneralMIDI>
+
+### Messages
+
+- ``GMMessage``
 
 ### General MIDI 1
 

@@ -53,4 +53,19 @@ extension GM2ControllerDestinationTests {
 
         #expect(parameters.count == 2)
     }
+
+    @Test
+    func init_bytes() {
+        #expect(GM2ControllerDestination(bytes: [0x00, 0x40]) == .pitchControl(64))
+        #expect(GM2ControllerDestination(bytes: [0x01, 0x40]) == .filterCutoffControl(64))
+        #expect(GM2ControllerDestination(bytes: [0x02, 0x40]) == .amplitudeControl(64))
+        #expect(GM2ControllerDestination(bytes: [0x03, 0x40]) == .lfoPitchDepth(64))
+        #expect(GM2ControllerDestination(bytes: [0x04, 0x40]) == .lfoFilterDepth(64))
+        #expect(GM2ControllerDestination(bytes: [0x05, 0x40]) == .lfoAmplitudeDepth(64))
+    }
+
+    @Test(arguments: [[], [0x01], [0x01, 0x02, 0x03], [0x06, 0x00], [0x01, 0x80]] as [[UInt8]])
+    func init_bytes_invalid(bytes: [UInt8]) {
+        #expect(GM2ControllerDestination(bytes: bytes) == nil)
+    }
 }

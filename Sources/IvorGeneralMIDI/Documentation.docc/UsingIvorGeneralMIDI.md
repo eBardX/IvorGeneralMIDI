@@ -113,11 +113,19 @@ Standard Set sound it is, or `nil` if the set replaces it.
 
 ## Turning General MIDI on and off
 
-The universal system exclusive messages that switch a device into or out of
-General MIDI are `MIDISystemMessage.gm1SystemOn`,
-`MIDISystemMessage.gm2SystemOn`, and
-`MIDISystemMessage.gmSystemOff`. Send one before anything else, so
-that the device starts from the specification’s default state.
+``GMMessage`` holds the universal system exclusive messages of General MIDI, and
+converts to and from a `MIDISystemMessage`. A message addresses all devices unless
+you provide a `deviceID:`. The messages that switch a device into or out of
+General MIDI are ``GMMessage/Content/gm1SystemOn``,
+``GMMessage/Content/gm2SystemOn``, and ``GMMessage/Content/gmSystemOff``. Send one
+before anything else, so that the device starts from the specification’s default
+state:
+
+```swift
+let start = GMMessage(content: .gm2SystemOn)
+
+start.systemMessage     // F0 7E 7F 09 03 F7
+```
 
 ## General MIDI 2 effects and controllers
 
@@ -127,8 +135,8 @@ first, since selecting a type resets the other parameters to that type’s
 defaults:
 
 ```swift
-let reverb = MIDISystemMessage.gm2Reverb(.type(.largeHall), .time(64))
-let chorus = MIDISystemMessage.gm2Chorus(.type(.chorus3), .feedback(16))
+let reverb = GMMessage(content: .gm2Reverb([.type(.largeHall), .time(64)]))
+let chorus = GMMessage(content: .gm2Chorus([.type(.chorus3), .feedback(16)]))
 ```
 
 ``GM2ReverbType`` and ``GM2ChorusType`` name the effect types and give their
@@ -142,27 +150,38 @@ the pan, volume, or effect sends of one note of a drum set
 
 ```swift
 // Let the modulation wheel add vibrato on channel 1.
-let vibrato = MIDISystemMessage.controlChangeDestinationSetting(controller: .modulationWheelMSB,
-                                                                channel: 1,
-                                                                .lfoPitchDepth(32))
+let vibrato = GMMessage(content: .controlChangeDestinations(.modulationWheelMSB,
+                                                            1,
+                                                            [.lfoPitchDepth(32)]))
 
 // Pan the kick of the drum set on channel 10 hard left, and keep it dry.
-let kick = MIDISystemMessage.keyBasedInstrumentControl(channel: 10,
-                                                       note: 36,
-                                                       .pan(0),
-                                                       .reverbSendLevel(0))
+let kick = GMMessage(content: .keyBasedInstrumentControl(10,
+                                                         note: 36,
+                                                         [.pan(0),
+                                                          .reverbSendLevel(0)]))
 ```
 
-`MIDISystemMessage.controlChangeDestinationSetting(controller:channel:_:)`
-returns `nil` for a controller outside the assignable ranges, 1–31 and 64–95.
+A ``GMMessage/Content/controlChangeDestinations(_:_:_:)`` message can’t be encoded
+for a controller outside the assignable ranges, 1–31 and 64–95, so its
+``GMMessage/envelope`` and `systemMessage` are `nil`.
+
+To read a message, such as one from a Standard MIDI File, create a ``GMMessage``
+from it, which returns `nil` for anything that isn’t a valid General MIDI message:
+
+```swift
+if let reply = GMMessage(message),
+   case let .gm2Reverb(parameters) = reply.content {
+    // Use the parameters.
+}
+```
 
 ## Error handling
 
 IvorGeneralMIDI throws no errors. Every lookup that can fail returns `nil`
 instead: the name initializers, ``GM1PercussionSound/init(note:)``,
 ``GM2Instrument/init(bankLSB:program:)``, ``GM2DrumSet/init(program:)``,
-``GM2PercussionSound/init(note:)``, ``GM2DrumSet/sound(for:)``, and
-`MIDISystemMessage.controlChangeDestinationSetting(controller:channel:_:)`.
+``GM2PercussionSound/init(note:)``, ``GM2DrumSet/sound(for:)``, and the decoding
+and encoding of ``GMMessage``.
 
 ## Concurrency
 
